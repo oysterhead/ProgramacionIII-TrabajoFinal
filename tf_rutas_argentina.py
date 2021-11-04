@@ -40,6 +40,10 @@ class Grafo:
     def existev(self, v):  # v -> Bool
         return v in self.grafo
 
+    def existea(self, v, a):
+        if v in self.grafo:
+            return a in self.grafo[v]
+
     def borrarv(self, v):  # borra el vertice v del grafo
         if v in self.grafo:
             del self.grafo[v]
