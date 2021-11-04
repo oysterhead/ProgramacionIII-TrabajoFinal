@@ -1,0 +1,8 @@
+8 7
+A F 0
+A G 0
+G B 0
+G U 0
+G X 0
+U Z 0
+U D 0
