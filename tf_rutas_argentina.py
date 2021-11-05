@@ -40,12 +40,19 @@ class Grafo:
     def existev(self, v):  # v -> Bool
         return v in self.grafo
 
+    def existea(self, v, a):
+        if v in self.grafo:
+            return a in self.grafo[v]
+
     def borrarv(self, v):  # borra el vertice v del grafo
         if v in self.grafo:
             del self.grafo[v]
+            for w in self.vertices():
+                if v in self.vecinos(w):
+                    del self.grafo[w][v]
 
     def agregara(self, v, w, p):  # agrega la arista vw al grafo con el peso p (deben existir v y w)
-        if v in self.grafo and w in self.grafo:
+        if v != w and v in self.grafo and w in self.grafo:
             diccionario_vecinos = self.grafo[v]  # diccionario de V con los otros "W"
             diccionario_vecinos[w] = p
 
@@ -62,6 +69,8 @@ class Grafo:
     def vecinos(self, v):  # v -> [v]
         if v in self.grafo:
             return list(self.grafo[v].keys())
+        else:
+            return []
 
     def nvertices(self):  # devuelve la cantidad de vertices de G
         return len(self.vertices())
@@ -72,7 +81,7 @@ class Grafo:
     def borrarGrafo(self):  # borra el grafo
         self.grafo.clear()
 
-    def cargar_de_archivo(self, archivo):  # carga el grafo desde "archivo"
+    def cargardearchivo(self, archivo):  # carga el grafo desde "archivo"
         self.grafo = {}
 
         def es_entero(variable):
