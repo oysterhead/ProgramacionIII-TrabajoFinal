@@ -211,18 +211,6 @@ class Grafo:
         camino -> una lista de los nodos que van del origen al destino , vacio si no existe ese camino
         distancia -> la distancia que hay entre los vertices , infinito si no existe el camino
         """
-        peso_acumulado = 0
-        desde_donde_venis
-        numero_operacion
-        visitados = [grafo_origen]
-        diccionario_etiquetado = {vertice: (peso_acumulado, desde_donde_venis, numero_operacion)}
-        grafo_origen -> self.vecinos(origen) #Devolverá la lista de vecinos del grafo
-        peso_acumulado = self.peso(v_origen,w_destino) + diccionario_etiquetado[v_origen][0]
-        diccionario_etiquetado[w_destino].append(peso_acumulado, v_origen, numero_operacion)
-        verificar si v_origen y w_destino in grafo --> Si existe ? como se que es el origen
-                                                  \_> si no, raiceException (not in grafo)
-
-        def  (self, v_origen, w_destino) -> devuelve tupla (peso_acumulado, v_desde_donde_venis, numero_operacion)
 
 
 if __name__ == "__main__":
