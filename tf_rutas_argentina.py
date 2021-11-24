@@ -206,12 +206,6 @@ class Grafo:
                 print("No has ingresado una opcion correcta")
                 input("Presione enter para continuar")
 
-    def MetodoDijkstra(self, grafo, origen, destino):  # Ejecuta el algoritmo de dijkstra
-        """El método de dijkstra toma un nodo origen y un nodo destino y devuelve
-        camino -> una lista de los nodos que van del origen al destino , vacio si no existe ese camino
-        distancia -> la distancia que hay entre los vertices , infinito si no existe el camino
-        """
-
 
 if __name__ == "__main__":
     g = Grafo()
