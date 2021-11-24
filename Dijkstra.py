@@ -1,5 +1,5 @@
-import heapq as minheap
 from tf_rutas_argentina import Grafo
+import heapq as minheap
 import math
 
 class Dijkstra:

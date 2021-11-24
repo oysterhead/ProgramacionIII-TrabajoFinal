@@ -2,6 +2,51 @@
 # Port a python 3 y adaptaciones Matías Bordone
 import os
 import sys
+from time import sleep
+import heapq as minheap
+import math
+
+
+class Dijkstra:
+    def __init__(self, grafo):
+        self.grafo = grafo
+        self.visitados = []
+        self.tabla_peso = {v: (math.inf, None, None) for v in
+                           self.grafo.vertices()}  # vertice:(infinito, vertice origen, iteracion) -> ojo: infinito es el peso pero al comienzo es infinito.
+        self.priority_heap = []  # guardar (peso acum, vertex)
+        self.iteracion = 0
+        self.ruta = []
+        self.peso_ruta = 0
+
+    def calcular(self, origen: int, destino: int) -> list[int]:
+        init_tag = (0, origen, self.iteracion)
+        self.tabla_peso[origen] = init_tag
+        minheap.heappush(self.priority_heap, init_tag)
+
+        while not self.priority_heap == []:
+            tag = minheap.heappop(self.priority_heap)
+            peso_acum, vertice_actual = tag[0], tag[1]
+            if vertice_actual not in self.visitados:
+                self.iteracion += 1
+                self.visitados.append(vertice_actual)
+
+                for vecino in self.grafo.vecinos(vertice_actual):
+                    if vecino not in self.visitados:
+                        distancia_al_vecino = self.grafo.peso(vertice_actual, vecino)
+                        peso_acum_vecino = self.tabla_peso[vecino][0]
+                        nuevo_peso_acum_vecino = peso_acum + distancia_al_vecino
+                        if nuevo_peso_acum_vecino < peso_acum_vecino:
+                            self.tabla_peso[vecino] = (nuevo_peso_acum_vecino, vertice_actual, self.iteracion)
+                            minheap.heappush(self.priority_heap, (nuevo_peso_acum_vecino, vecino))
+
+        self.peso_ruta = self.tabla_peso[destino][0]
+        vertex = destino
+        while vertex != origen:
+            self.ruta.append(vertex)
+            vertex = self.tabla_peso[vertex][1]
+        self.ruta.append(origen)
+
+        return self.ruta[::-1]  # ruta en orden de inicio a destino
 
 
 class Grafo:
@@ -81,7 +126,7 @@ class Grafo:
     def borrarGrafo(self):  # borra el grafo
         self.grafo.clear()
 
-    def cargardearchivo(self, archivo):  # carga el grafo desde "archivo"
+    def cargar_de_archivo(self, archivo):  # carga el grafo desde "archivo"
         self.grafo = {}
 
         def es_entero(variable):
@@ -192,7 +237,16 @@ class Grafo:
                         print("El destino no existe")
                         input("Presione enter para continuar")
                     else:
-                        camino, distancia = g.MetodoDijkstra(origen, destino)
+                        dj = Dijkstra(g)
+                        camino = dj.calcular(origen, destino)
+                        distancia = dj.peso_ruta
+                        self.borrarPantalla()
+                        print("El camino desde el origen: ", origen, "hasta el destino: ", destino)
+                        print("Pasando por las ciudades: ", camino)
+                        print("Tiene la cantidad de ", distancia, " [km]\n")
+                        input("Para continuar presione <Enter>")
+                        self.borrarPantalla()
+
             elif opcion == "3":
                 archivo = input(">=> Ingresa el nombre del archivo con el grafo a cargar (ej rutas_argentinas.txt) ")
                 self.cargar_de_archivo(archivo)
